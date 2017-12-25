@@ -1,101 +1,134 @@
 [
     {
-        "id": "d8032b1f.b35118",
+        "id": "31a2a49e.64bb0c",
         "type": "tab",
         "label": "Flow 1"
     },
     {
-        "id": "e4547a1c.df9b08",
-        "type": "inject",
-        "z": "d8032b1f.b35118",
-        "name": "",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "5",
-        "crontab": "",
-        "once": true,
-        "x": 190,
-        "y": 100,
-        "wires": [
-            [
-                "9b1c8b84.ab9238"
-            ]
-        ]
-    },
-    {
-        "id": "9b1c8b84.ab9238",
-        "type": "function",
-        "z": "d8032b1f.b35118",
-        "name": "Payload",
-        "func": "msg.headers={\n    deviceXey:\"10EVZz5qxBMrRcgN\"\n    };\n    \nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 392,
-        "y": 185,
-        "wires": [
-            [
-                "95629d5e.314dd",
-                "e48338e5.6a1e18"
-            ]
-        ]
-    },
-    {
-        "id": "95629d5e.314dd",
-        "type": "http request",
-        "z": "d8032b1f.b35118",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "url": "http://api.mediatek.com/mcs/v2/devices/DD2TiBfW/datachannels/Humidity/datapoints.csv",
-        "tls": "",
-        "x": 622,
-        "y": 185,
-        "wires": [
-            [
-                "8a04ae87.22768",
-                "4158c66.763bd38"
-            ]
-        ]
-    },
-    {
-        "id": "8a04ae87.22768",
-        "type": "http response",
-        "z": "d8032b1f.b35118",
-        "name": "",
-        "statusCode": "",
-        "headers": {},
-        "x": 842,
-        "y": 185,
+        "id": "c19a69bd.8034d8",
+        "type": "rpi-gpio out",
+        "z": "31a2a49e.64bb0c",
+        "name": "Green LED",
+        "pin": "11",
+        "set": true,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "x": 730,
+        "y": 160,
         "wires": []
     },
     {
-        "id": "4158c66.763bd38",
+        "id": "e56c9932.2367a8",
         "type": "debug",
-        "z": "d8032b1f.b35118",
+        "z": "31a2a49e.64bb0c",
         "name": "",
         "active": true,
         "console": "false",
         "complete": "payload",
-        "x": 842,
-        "y": 265,
+        "x": 710,
+        "y": 60,
         "wires": []
     },
     {
-        "id": "e48338e5.6a1e18",
-        "type": "http request",
-        "z": "d8032b1f.b35118",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "url": "http://api.mediatek.com/mcs/v2/devices/DD2TiBfW/datachannels/Temp/datapoints.csv",
-        "tls": "",
-        "x": 610,
-        "y": 260,
+        "id": "a01560cd.609e1",
+        "type": "rpi-gpio in",
+        "z": "31a2a49e.64bb0c",
+        "name": "Button",
+        "pin": "7",
+        "intype": "up",
+        "debounce": "25",
+        "read": true,
+        "x": 110,
+        "y": 160,
         "wires": [
             [
-                "8a04ae87.22768",
-                "4158c66.763bd38"
+                "66c34091.a151b",
+                "e56c9932.2367a8"
+            ]
+        ]
+    },
+    {
+        "id": "66c34091.a151b",
+        "type": "switch",
+        "z": "31a2a49e.64bb0c",
+        "name": "If input is 1",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 290,
+        "y": 160,
+        "wires": [
+            [
+                "fe611618.384418"
+            ],
+            [
+                "9f72fb4a.e5dad8"
+            ]
+        ]
+    },
+    {
+        "id": "fe611618.384418",
+        "type": "change",
+        "z": "31a2a49e.64bb0c",
+        "name": "change to 0",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 490,
+        "y": 140,
+        "wires": [
+            [
+                "c19a69bd.8034d8"
+            ]
+        ]
+    },
+    {
+        "id": "9f72fb4a.e5dad8",
+        "type": "change",
+        "z": "31a2a49e.64bb0c",
+        "name": "change to 1",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 490,
+        "y": 180,
+        "wires": [
+            [
+                "c19a69bd.8034d8"
             ]
         ]
     }
