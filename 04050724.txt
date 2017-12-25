@@ -1,0 +1,102 @@
+[
+    {
+        "id": "d8032b1f.b35118",
+        "type": "tab",
+        "label": "Flow 1"
+    },
+    {
+        "id": "e4547a1c.df9b08",
+        "type": "inject",
+        "z": "d8032b1f.b35118",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "5",
+        "crontab": "",
+        "once": true,
+        "x": 190,
+        "y": 100,
+        "wires": [
+            [
+                "9b1c8b84.ab9238"
+            ]
+        ]
+    },
+    {
+        "id": "9b1c8b84.ab9238",
+        "type": "function",
+        "z": "d8032b1f.b35118",
+        "name": "Payload",
+        "func": "msg.headers={\n    deviceXey:\"10EVZz5qxBMrRcgN\"\n    };\n    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 392,
+        "y": 185,
+        "wires": [
+            [
+                "95629d5e.314dd",
+                "e48338e5.6a1e18"
+            ]
+        ]
+    },
+    {
+        "id": "95629d5e.314dd",
+        "type": "http request",
+        "z": "d8032b1f.b35118",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://api.mediatek.com/mcs/v2/devices/DD2TiBfW/datachannels/Humidity/datapoints.csv",
+        "tls": "",
+        "x": 622,
+        "y": 185,
+        "wires": [
+            [
+                "8a04ae87.22768",
+                "4158c66.763bd38"
+            ]
+        ]
+    },
+    {
+        "id": "8a04ae87.22768",
+        "type": "http response",
+        "z": "d8032b1f.b35118",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 842,
+        "y": 185,
+        "wires": []
+    },
+    {
+        "id": "4158c66.763bd38",
+        "type": "debug",
+        "z": "d8032b1f.b35118",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 842,
+        "y": 265,
+        "wires": []
+    },
+    {
+        "id": "e48338e5.6a1e18",
+        "type": "http request",
+        "z": "d8032b1f.b35118",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://api.mediatek.com/mcs/v2/devices/DD2TiBfW/datachannels/Temp/datapoints.csv",
+        "tls": "",
+        "x": 610,
+        "y": 260,
+        "wires": [
+            [
+                "8a04ae87.22768",
+                "4158c66.763bd38"
+            ]
+        ]
+    }
+]
